@@ -53,15 +53,9 @@ h1{
   gap: 8px;
 }
 
-/* .blockMake > div,
-.blockMake > span,
-.blockMake > input {
-  /* min-width: 70px;         */
-  /* text-align: center;
-/* } */ 
-
 .blockMakeStrong{
-  border: 5px solid #c90707;   
+  border: 2px solid #333; 
+  /* background-color: #B30000; */
   padding: 8px 12px;        
   border-radius: 8px;       
   margin: 5px;   
@@ -81,4 +75,7 @@ h1{
     position:relative;
     left:45px;
     margin:0px 60px;
+}
+.sline{
+    text-decoration: line-through;
 }

@@ -1,7 +1,7 @@
 
 const text = document.getElementById("text");
 const confirm = document.getElementById("confirm");
-var text_area = document.getElementById("text_area");
+let text_area = document.getElementById("text_area");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 
@@ -34,8 +34,9 @@ confirm.addEventListener("click", function () {
         day: dayValue,
         start: getStartTimeValue,
         end: getEndTimeValue,
-        priority:"normal",
-        color:""
+        priority: "normal",
+        color: "",
+        sline: "false"
     };
 
     tasks.push(task);
@@ -46,14 +47,14 @@ confirm.addEventListener("click", function () {
     console.log("記録を保存します");
     console.log(tasks.id);
 
-    text.value="";
+    text.value = "";
 
 });
 
 
 //保存するときの関数
 function tasqSave() {
-    
+
     localStorage.setItem("tasks", JSON.stringify(tasks));
     console.log("保存しました");
 
@@ -63,13 +64,13 @@ function tasqSave() {
 function DOMcreate(task) {
 
     console.log(text.value);
-    
+
     const createDateDay = document.getElementById("day");
     const createDateDayAdd = document.createElement("div");
     createDateDayAdd.textContent = task.day;
     createDateDayAdd.classList.add("positionFirst");
 
-    
+
     const getStartTimeAdd = document.createElement("div");
     const getEndTimeAdd = document.createElement("div");
     getStartTimeAdd.textContent = task.start;
@@ -82,38 +83,38 @@ function DOMcreate(task) {
     span.id = "span" + Date.now();
     span.textContent = task.text;
     span.style.fontSize = "25px";
-   
+
 
     console.log(createDateDay.value);
 
 
     //各ボタンの作成
     //チェックボタン
-    var buttonAddFinish = document.createElement("input");
+    let buttonAddFinish = document.createElement("input");
     buttonAddFinish.type = "button";
     buttonAddFinish.value = "✔";
     buttonAddFinish.id = "finish" + Date.now();
     buttonAddFinish.classList.add("btn", "btn-primary", "positionFirst");
     //☆ボタン
-    var buttonAddPriority = document.createElement("input");
+    let buttonAddPriority = document.createElement("input");
     buttonAddPriority.type = "button";
     buttonAddPriority.value = "☆";
     buttonAddPriority.id = "priority" + Date.now();
     buttonAddPriority.classList.add("btn", "btn-primary", "positionEnd");
     //赤色に変えるボタン
-    var changeColorRed = document.createElement("input");
+    let changeColorRed = document.createElement("input");
     changeColorRed.type = "button";
     changeColorRed.value = "赤色";
     changeColorRed.id = "red";
     changeColorRed.classList.add("btn", "btn-danger");
     //青色に変えるボタン
-    var changeColorBlue = document.createElement("input");
+    let changeColorBlue = document.createElement("input");
     changeColorBlue.type = "button";
     changeColorBlue.value = "青色";
     changeColorBlue.id = "blue";
     changeColorBlue.classList.add("btn", "btn-primary");
     //緑色に変えるボタン
-    var changeColorGreen = document.createElement("input");
+    let changeColorGreen = document.createElement("input");
     changeColorGreen.type = "button";
     changeColorGreen.value = "緑色";
     changeColorGreen.id = "green";
@@ -123,26 +124,30 @@ function DOMcreate(task) {
     blockMake.classList = "blockMake";
 
 
-    //徐行線を追加する機能
+    //取り消し線を追加する機能
+    let slineCount = 0;
     span.addEventListener("click", function () {
-        var cancelLine = document.createElement("s");
-
-        cancelLine.textContent = span.textContent;
-
-        span.textContent = "";
-        span.appendChild(cancelLine);
+        if (slineCount % 2 == 0) {
+            span.classList.add("sline");
+            task.sline = "true";
+            console.log("取り消し線を追加する");
+        } else {
+            span.classList.remove("sline");
+            task.sline = "false";
+            console.log("取り消し線を外す");
+        }
+        tasqSave();
+        slineCount++;
 
     });
 
     //✔の処理内容
     buttonAddFinish.addEventListener("click", function () {
 
-        var result = window.confirm("削除しますか？");
+        let result = window.confirm("削除しますか？");
 
         if (result) {
             blockMake.remove();
-            
-
             let newTasks = [];
             for (let i = 0; i < tasks.length; i++) {
                 let currentTask = tasks[i];
@@ -150,21 +155,19 @@ function DOMcreate(task) {
                     newTasks.push(currentTask);
                 }
             }
-            tasks=newTasks;
+            tasks = newTasks;
             tasqSave();
             console.log("削除します");
         } else {
             console.log("削除しません");
             tasqSave();
         }
-
-
         console.log(span.id + "を消します");
 
     });
 
     //☆ボタンの処理内容
-    var PriorityCount = 0;
+    let PriorityCount = 0;
     buttonAddPriority.addEventListener("click", function () {
 
         if (PriorityCount % 2 == 0) {
@@ -173,95 +176,86 @@ function DOMcreate(task) {
             emphasis.textContent = span.textContent;
             span.textContent = "";
             emphasis.style.fontWeight = "bold";
-            emphasis.style.color = "red";
+            blockMake.style.color = "#CC0000";
 
             span.innerHTML = "";
             span.appendChild(emphasis);
-            task.priority="strong";
+            task.priority = "strong";
+
         } else {
             blockMake.className = "blockMake";
             span.innerHTML = task.text;
-            task.priority="normal";
+            blockMake.style.color = "";
+            task.priority = "normal";
         }
 
-        // if(task.priority==="normal"){
-        //     task.priority="strong";
-        //     span.style.fontWeight = "bold";
-        //     span.style.color="red";
-        //     blockMake.className = "blockMake";
-        // }else{
-        //     task.priority="normal";
-        //     span.style.fontWeight = "normal";
-        //     span.style.color=task.color;
-        //      blockMake.className = "blockMakeStrong";
-        // }
-
-        // span.style.color = task.color || "black";
-        // span.textContent = task.text;
         PriorityCount++;
         tasqSave();
     });
 
     //赤色ボタンの処理内容
-    var RedCount = 0;
+    let RedCount = 0;
     changeColorRed.addEventListener("click", function () {
         if (RedCount % 2 == 0) {
             const changeColorRedText = document.createElement("div");
             changeColorRedText.textContent = span.textContent;
             span.textContent = "";
-            changeColorRedText.style.color = "red";
+            // changeColorRedText.style.color = "red";
+            blockMake.style.backgroundColor= "#FF4D4D" ;
+            blockMake.style.color = "#FFE6E6";
             span.appendChild(changeColorRedText);
             console.log("赤色に変えます");
-            task.color="red";
+            task.color = "red";
         } else {
             span.innerHTML = task.text;
-             task.color="";
+            blockMake.style.backgroundColor= "" ;
+            blockMake.style.color = "";
+            task.color = "";
         }
 
-        // if(task.color!=="red"){
-        //     task.color="red";
-        //     span.style.color="red";
-        // }else{
-        //     task.color="";
-        //     span.style.color="";
-        // }
         RedCount++;
         tasqSave();
     });
 
     //青色ボタンの処理内容
-    var BlueCount = 0;
+    let BlueCount = 0;
     changeColorBlue.addEventListener("click", function () {
         if (BlueCount % 2 == 0) {
             const changeColorBlueText = document.createElement("div");
             changeColorBlueText.textContent = span.textContent;
             span.textContent = "";
-            changeColorBlueText.style.color = "blue";
+            blockMake.style.backgroundColor = "#4DA6FF";
+            blockMake.style.color = "#E6F3FF";
             span.appendChild(changeColorBlueText);
             console.log("青色に変えます");
-            task.color="blue";
+            task.color = "blue";
         } else {
             span.innerHTML = task.text;
-            task.color="";
+            blockMake.style.backgroundColor = "";
+            blockMake.style.color = "";
+            task.color = "";
         }
         BlueCount++;
         tasqSave();
     });
 
     //緑色ボタンの処理内容
-    var GreenCount = 0;
+    let GreenCount = 0;
     changeColorGreen.addEventListener("click", function () {
         if (GreenCount % 2 == 0) {
             const changeColorGreenText = document.createElement("div");
             changeColorGreenText.textContent = span.textContent;
             span.textContent = "";
-            changeColorGreenText.style.color = "green";
+            blockMake.style.backgroundColor = "#00B300";
+            blockMake.style.color = "#E6FFE6";
             span.appendChild(changeColorGreenText);
             console.log("緑色に変えます");
-            task.color="green";
+            task.color = "green";
         } else {
             span.innerHTML = task.text;
-            task.color="";
+            blockMake.style.backgroundColor = "";
+            blockMake.style.color = "";
+            task.color = "";
         }
         GreenCount++;
         tasqSave();
@@ -271,6 +265,35 @@ function DOMcreate(task) {
         text.value = "";
         console.log("リセットしました");
     });
+
+    //リロードしてもテキストの状態を復元する処理
+    if (task.priority === "strong") {
+        blockMake.className = "blockMakeStrong";
+        const emphasis = document.createElement("strong");
+        emphasis.textContent = task.text;
+        emphasis.style.fontWeight = "bold";
+        emphasis.style.color = "red";
+        span.textContent = "";
+        span.appendChild(emphasis);
+    }
+
+    if(task.sline === "true"){
+        span.classList.add("sline");
+    }
+
+    if (task.color === "red") {
+        blockMake.style.backgroundColor= "#FF4D4D" ;
+        blockMake.style.color = "#FFE6E6";
+    } else if (task.color === "blue") {
+        blockMake.style.backgroundColor = "#4DA6FF";
+        blockMake.style.color = "#E6F3FF";
+    } else if (task.color === "green") {
+        blockMake.style.backgroundColor = "#00B300";
+        blockMake.style.color = "#E6FFE6";
+    }
+
+
+
 
     //それぞれの親子ノードの設定
     blockMake.appendChild(buttonAddFinish);
@@ -288,4 +311,6 @@ function DOMcreate(task) {
     text_area.appendChild(blockMake);
 
     return blockMake;
+
+
 }
