@@ -34,7 +34,7 @@ h1{
     width:120px;
     height:50px;
     background-color:rgba(247, 134, 30, 0.5);
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     position:relative;
     top:30px;
@@ -53,8 +53,9 @@ h1{
   gap: 8px;
 }
 
+
 .blockMakeStrong{
-  border: 2px solid #333; 
+  border: 5px solid #e6a212; 
   /* background-color: #B30000; */
   padding: 8px 12px;        
   border-radius: 8px;       
@@ -79,3 +80,4 @@ h1{
 .sline{
     text-decoration: line-through;
 }
+

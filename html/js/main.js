@@ -36,7 +36,8 @@ confirm.addEventListener("click", function () {
         end: getEndTimeValue,
         priority: "normal",
         color: "",
-        sline: "false"
+        sline: "false",
+        reset:"false"
     };
 
     tasks.push(task);
@@ -83,6 +84,7 @@ function DOMcreate(task) {
     span.id = "span" + Date.now();
     span.textContent = task.text;
     span.style.fontSize = "25px";
+   
 
 
     console.log(createDateDay.value);
@@ -100,7 +102,8 @@ function DOMcreate(task) {
     buttonAddPriority.type = "button";
     buttonAddPriority.value = "☆";
     buttonAddPriority.id = "priority" + Date.now();
-    buttonAddPriority.classList.add("btn", "btn-primary", "positionEnd");
+    buttonAddPriority.classList.add("btn","btn-warning", "positionEnd");
+
     //赤色に変えるボタン
     let changeColorRed = document.createElement("input");
     changeColorRed.type = "button";
@@ -177,18 +180,26 @@ function DOMcreate(task) {
             span.textContent = "";
             emphasis.style.fontWeight = "bold";
             blockMake.style.color = "#CC0000";
+            emphasis.style.fontSize="30px";
 
             span.innerHTML = "";
             span.appendChild(emphasis);
             task.priority = "strong";
+
+            changeColorRed.disabled=true;
+            changeColorBlue.disabled=true;
+            changeColorGreen.disabled=true;
 
         } else {
             blockMake.className = "blockMake";
             span.innerHTML = task.text;
             blockMake.style.color = "";
             task.priority = "normal";
-        }
 
+            changeColorRed.disabled=false;
+            changeColorBlue.disabled=false;
+            changeColorGreen.disabled=false;
+        }
         PriorityCount++;
         tasqSave();
     });
@@ -200,17 +211,24 @@ function DOMcreate(task) {
             const changeColorRedText = document.createElement("div");
             changeColorRedText.textContent = span.textContent;
             span.textContent = "";
-            // changeColorRedText.style.color = "red";
-            blockMake.style.backgroundColor= "#FF4D4D" ;
-            blockMake.style.color = "#FFE6E6";
+            blockMake.style.backgroundColor= "#ffcccc" ;
+            // blockMake.style.color = "#FFE6E6";
             span.appendChild(changeColorRedText);
             console.log("赤色に変えます");
             task.color = "red";
+
+            buttonAddPriority.disabled=true;
+            changeColorBlue.disabled=true;
+            changeColorGreen.disabled=true;
         } else {
             span.innerHTML = task.text;
             blockMake.style.backgroundColor= "" ;
             blockMake.style.color = "";
             task.color = "";
+
+             buttonAddPriority.disabled=false;
+             changeColorBlue.disabled=false;
+             changeColorGreen.disabled=false;
         }
 
         RedCount++;
@@ -224,16 +242,24 @@ function DOMcreate(task) {
             const changeColorBlueText = document.createElement("div");
             changeColorBlueText.textContent = span.textContent;
             span.textContent = "";
-            blockMake.style.backgroundColor = "#4DA6FF";
-            blockMake.style.color = "#E6F3FF";
+            blockMake.style.backgroundColor = "#cce5ff";
+            // blockMake.style.color = "#E6F3FF";
             span.appendChild(changeColorBlueText);
             console.log("青色に変えます");
             task.color = "blue";
+
+            buttonAddPriority.disabled=true;
+            changeColorRed.disabled=true;
+            changeColorGreen.disabled=true;
         } else {
             span.innerHTML = task.text;
             blockMake.style.backgroundColor = "";
             blockMake.style.color = "";
             task.color = "";
+
+            buttonAddPriority.disabled=false;
+            changeColorGreen.disabled=false;
+            changeColorRed.disabled=false;
         }
         BlueCount++;
         tasqSave();
@@ -246,24 +272,45 @@ function DOMcreate(task) {
             const changeColorGreenText = document.createElement("div");
             changeColorGreenText.textContent = span.textContent;
             span.textContent = "";
-            blockMake.style.backgroundColor = "#00B300";
-            blockMake.style.color = "#E6FFE6";
+            blockMake.style.backgroundColor = "#ccffe5";
+            // blockMake.style.color = "#E6FFE6";
             span.appendChild(changeColorGreenText);
             console.log("緑色に変えます");
             task.color = "green";
+
+            buttonAddPriority.disabled=true;
+            changeColorRed.disabled=true;
+            changeColorBlue.disabled=true;
         } else {
             span.innerHTML = task.text;
             blockMake.style.backgroundColor = "";
             blockMake.style.color = "";
             task.color = "";
+
+            buttonAddPriority.disabled=false;
+            changeColorBlue.disabled=false;
+            changeColorRed.disabled=false;
         }
         GreenCount++;
         tasqSave();
     });
 
+    //リセットボタンの処理
     reset.addEventListener("click", function () {
-        text.value = "";
-        console.log("リセットしました");
+
+        let result2= window.confirm("本当にすべての予定を削除しますか？");
+
+        if(result2){
+            text_area.innerHTML="";
+            task.reset="true";
+            tasks=[];
+            tasqSave();
+            console.log("すべてのテキストを削除しました");
+        }else{
+            console.log("削除しません");
+        }
+        
+        
     });
 
     //リロードしてもテキストの状態を復元する処理
@@ -273,6 +320,7 @@ function DOMcreate(task) {
         emphasis.textContent = task.text;
         emphasis.style.fontWeight = "bold";
         emphasis.style.color = "red";
+        emphasis.style.fontSize="30px";
         span.textContent = "";
         span.appendChild(emphasis);
     }
@@ -282,19 +330,14 @@ function DOMcreate(task) {
     }
 
     if (task.color === "red") {
-        blockMake.style.backgroundColor= "#FF4D4D" ;
-        blockMake.style.color = "#FFE6E6";
+       blockMake.style.backgroundColor= "#ffcccc" ;
     } else if (task.color === "blue") {
-        blockMake.style.backgroundColor = "#4DA6FF";
-        blockMake.style.color = "#E6F3FF";
+        blockMake.style.backgroundColor = "#cce5ff";
     } else if (task.color === "green") {
-        blockMake.style.backgroundColor = "#00B300";
-        blockMake.style.color = "#E6FFE6";
+        blockMake.style.backgroundColor = "#ccffe5";
     }
 
-
-
-
+    
     //それぞれの親子ノードの設定
     blockMake.appendChild(buttonAddFinish);
     //ブロックが全体を囲むようにCSSのクラスがあるものを先頭に置く
