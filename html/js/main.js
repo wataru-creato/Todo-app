@@ -2,6 +2,7 @@
 const text = document.getElementById("text");
 const confirm = document.getElementById("confirm");
 let text_area = document.getElementById("text_area");
+const reset=document.getElementById("reset");
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
 
@@ -13,9 +14,8 @@ window.addEventListener("DOMContentLoaded", function () {
     })
 })
 
-//「追加する」ボタンを押したときの処理
-confirm.addEventListener("click", function () {
 
+function putaddTask(){
     //テキストに追加した内容を取得できるようにする
     const dayValue = document.getElementById("day").value;
     const getStartTimeValue = document.getElementById("start-time").value;
@@ -27,8 +27,15 @@ confirm.addEventListener("click", function () {
         return;
     }
 
-    //テキスト内容を保存するオブジェクト
-    const task = {
+    const task=createTask(textValue,dayValue,getStartTimeValue,getEndTimeValue);
+    addTask(task);
+}
+
+    
+
+//テキスト内容をオブジェクト化するための関数
+function createTask(textValue,dayValue,getStartTimeValue,getEndTimeValue){
+    return{
         id: Date.now(),
         text: textValue,
         day: dayValue,
@@ -39,18 +46,18 @@ confirm.addEventListener("click", function () {
         sline: "false",
         reset:"false"
     };
+}
 
+
+//タスクを追加する関数
+function addTask(task){
     tasks.push(task);
     tasqSave();
 
     const taskElm = DOMcreate(task);
     text_area.appendChild(taskElm);
-    console.log("記録を保存します");
-    console.log(tasks.id);
 
-    text.value = "";
-
-});
+}
 
 
 //保存するときの関数
@@ -87,7 +94,7 @@ function DOMcreate(task) {
    
 
 
-    console.log(createDateDay.value);
+    console.log();
 
 
     //各ボタンの作成
@@ -144,9 +151,10 @@ function DOMcreate(task) {
 
     });
 
-    //✔の処理内容
-    buttonAddFinish.addEventListener("click", function () {
+    
 
+    //✔の処理内容
+    function SetbuttonAddFinish(){
         let result = window.confirm("削除しますか？");
 
         if (result) {
@@ -166,14 +174,16 @@ function DOMcreate(task) {
             tasqSave();
         }
         console.log(span.id + "を消します");
+    }
+    //✔の処理を定義
+    buttonAddFinish.addEventListener("click", SetbuttonAddFinish);
 
-    });
 
-    //☆ボタンの処理内容
+
     let PriorityCount = 0;
-    buttonAddPriority.addEventListener("click", function () {
-
-        if (PriorityCount % 2 == 0) {
+    //☆ボタンの処理内容
+    function SetbuttonAddPriority(){
+        if (task.priority!=="strong") {
             blockMake.className = "blockMakeStrong";
             const emphasis = document.createElement("strong");
             emphasis.textContent = span.textContent;
@@ -202,12 +212,15 @@ function DOMcreate(task) {
         }
         PriorityCount++;
         tasqSave();
-    });
+    }
+    
+    //☆の処理を定義
+    buttonAddPriority.addEventListener("click", SetbuttonAddPriority);
 
-    //赤色ボタンの処理内容
     let RedCount = 0;
-    changeColorRed.addEventListener("click", function () {
-        if (RedCount % 2 == 0) {
+    //赤色ボタンの処理内容
+    function SetchangeColorRed(){
+        if (task.color !== "red") {
             const changeColorRedText = document.createElement("div");
             changeColorRedText.textContent = span.textContent;
             span.textContent = "";
@@ -233,12 +246,15 @@ function DOMcreate(task) {
 
         RedCount++;
         tasqSave();
-    });
+    }
+    
+    //赤色ボタンの処理を定義
+    changeColorRed.addEventListener("click", SetchangeColorRed);
 
-    //青色ボタンの処理内容
     let BlueCount = 0;
-    changeColorBlue.addEventListener("click", function () {
-        if (BlueCount % 2 == 0) {
+    //青色ボタンの処理内容
+    function SetchangeColorBlue(){
+        if (task.color !== "blue") {
             const changeColorBlueText = document.createElement("div");
             changeColorBlueText.textContent = span.textContent;
             span.textContent = "";
@@ -263,12 +279,14 @@ function DOMcreate(task) {
         }
         BlueCount++;
         tasqSave();
-    });
+    }
+    //青色ボタンの処理を定義
+    changeColorBlue.addEventListener("click", SetchangeColorBlue);
 
-    //緑色ボタンの処理内容
     let GreenCount = 0;
-    changeColorGreen.addEventListener("click", function () {
-        if (GreenCount % 2 == 0) {
+    //緑色ボタンの処理内容
+    function SetchangeColorGreen(){
+        if (task.color !== "green") {
             const changeColorGreenText = document.createElement("div");
             changeColorGreenText.textContent = span.textContent;
             span.textContent = "";
@@ -293,7 +311,72 @@ function DOMcreate(task) {
         }
         GreenCount++;
         tasqSave();
-    });
+    }
+    
+    changeColorGreen.addEventListener("click", SetchangeColorGreen);
+
+    
+
+    //リロードしてもテキストの状態を復元する処理
+    if (task.priority === "strong") {
+        blockMake.className = "blockMakeStrong";
+        const emphasis = document.createElement("strong");
+        emphasis.textContent = task.text;
+        emphasis.style.fontWeight = "bold";
+        emphasis.style.color = "red";
+        emphasis.style.fontSize="30px";
+        span.textContent = "";
+        span.appendChild(emphasis);
+        changeColorRed.disabled=true;
+        changeColorBlue.disabled=true;
+        changeColorGreen.disabled=true;
+    }
+
+    if(task.sline === "true"){
+        span.classList.add("sline");
+    }
+
+    if (task.color === "red") {
+       blockMake.style.backgroundColor= "#ffcccc" ;
+            buttonAddPriority.disabled=true;
+            changeColorBlue.disabled=true;
+            changeColorGreen.disabled=true;
+    } else if (task.color === "blue") {
+        blockMake.style.backgroundColor = "#cce5ff";
+            buttonAddPriority.disabled=true;
+            changeColorRed.disabled=true;
+            changeColorGreen.disabled=true;
+    } else if (task.color === "green") {
+        blockMake.style.backgroundColor = "#ccffe5";
+            buttonAddPriority.disabled=true;
+            changeColorRed.disabled=true;
+            changeColorBlue.disabled=true;
+    }
+
+    
+    //それぞれの親子ノードの設定
+    blockMake.appendChild(buttonAddFinish);
+    //ブロックが全体を囲むようにCSSのクラスがあるものを先頭に置く
+    blockMake.appendChild(createDateDayAdd);
+    blockMake.appendChild(getStartTimeAdd);
+    blockMake.appendChild(getEndTimeAdd);
+    blockMake.appendChild(span);
+    //ここの順番を変えることでボタンの位置を変えれる？
+    blockMake.appendChild(buttonAddPriority);
+    blockMake.appendChild(changeColorRed);
+    blockMake.appendChild(changeColorBlue);
+    blockMake.appendChild(changeColorGreen);
+
+    text_area.appendChild(blockMake);
+
+    blockMake.dataset.color = task.color; 
+    // textValue =""; 追加するボタンを押した後テキストボックスを空にしたい
+    return blockMake;
+
+
+}
+//「追加する」ボタンを押したときの処理
+    confirm.addEventListener("click", putaddTask);
 
     //リセットボタンの処理
     reset.addEventListener("click", function () {
@@ -313,47 +396,39 @@ function DOMcreate(task) {
         
     });
 
-    //リロードしてもテキストの状態を復元する処理
-    if (task.priority === "strong") {
-        blockMake.className = "blockMakeStrong";
-        const emphasis = document.createElement("strong");
-        emphasis.textContent = task.text;
-        emphasis.style.fontWeight = "bold";
-        emphasis.style.color = "red";
-        emphasis.style.fontSize="30px";
-        span.textContent = "";
-        span.appendChild(emphasis);
+    //フィルター要素
+    function colorFilter(event){
+        let filterValue=event.target.value;//targetはユーザが直接選んだ値である
+       let starfilter=document.querySelectorAll(".blockMake, .blockMakeStrong");//NodeList（配列のようなもの）を返すため，classListでは参照できない
+       let found=false;//最初にフラグを作ることでフィルターの条件があるかどうかをしらべる
+       for(let i=0;i<starfilter.length;i++){
+           let kepptask=starfilter[i];//それぞれのDOM情報を取り出す，こっちならクラスを参照できる
+            kepptask.style.display="none";//最初は隠しておく
+
+
+             if(filterValue==="star"){//☆のフィルターを選んだ時
+                if (kepptask.classList.contains("blockMakeStrong")) {
+                kepptask.style.display="";//全表示//display=noneにしてしまうと見た目がずれてしまう
+                 found=true;//フィルターの条件に一致するものがあればtrueにする
+                console.log("☆あります");
+                }else{
+                    kepptask.style.display="none";
+                }       
+            }else if(filterValue===kepptask.dataset.color){ //フィルターの色と表示の色が同じ時 
+                    kepptask.style.display="";//全表示
+                    found=true;//フィルターの条件に一致するものがあればtrueにする
+                }else if(filterValue=="all"){
+                kepptask.style.display="";//全表示
+                found=true;//フィルターの条件に一致するものがあればtrueにする
+                console.log("すべてを表示します");
+            }
+            
+            
     }
-
-    if(task.sline === "true"){
-        span.classList.add("sline");
-    }
-
-    if (task.color === "red") {
-       blockMake.style.backgroundColor= "#ffcccc" ;
-    } else if (task.color === "blue") {
-        blockMake.style.backgroundColor = "#cce5ff";
-    } else if (task.color === "green") {
-        blockMake.style.backgroundColor = "#ccffe5";
-    }
-
-    
-    //それぞれの親子ノードの設定
-    blockMake.appendChild(buttonAddFinish);
-    //ブロックが全体を囲むようにCSSのクラスがあるものを先頭に置く
-    blockMake.appendChild(createDateDayAdd);
-    blockMake.appendChild(getStartTimeAdd);
-    blockMake.appendChild(getEndTimeAdd);
-    blockMake.appendChild(span);
-    //ここの順番を変えることでボタンの位置を変えれる？
-    blockMake.appendChild(buttonAddPriority);
-    blockMake.appendChild(changeColorRed);
-    blockMake.appendChild(changeColorBlue);
-    blockMake.appendChild(changeColorGreen);
-
-    text_area.appendChild(blockMake);
-
-    return blockMake;
-
-
+     if(!found){//foundのtrueが見つからなければ条件に一致するものが存在しないものとする
+                alert("条件に一致したものは存在しません");
+            }
 }
+    
+   filter.addEventListener("change",colorFilter);
+   console.log("テスト");

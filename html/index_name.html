@@ -13,7 +13,7 @@
 <body class="back-img">
     <headter>
         <div id="menue-bar">
-            <h1>自己紹介ページを作成します</h1>
+            <h1>復習用Todoリスト</h1>
         </div>
     </headter>
 
@@ -31,11 +31,20 @@
         <h2>Todoリスト</h2>
         </p>
         <div id="TodoList">
+            <div id="TodoListLocate">
             <input type="date" id="day" value="">
             <input type="time" id="start-time" value="">～～<input type="time" id="end-time" value="">
             <input type="text" id="text" placeholder="ここに追加してください">
-            <input type="button" value="追加する" id="confirm" class="btn btn-warning">
-            <input type="button" value="リセット" id="reset" class="btn btn-warning">
+            <input type="button" value="追加する" id="confirm" class="btn btn-warning shadow p-3">
+            <input type="button" value="リセット" id="reset" class="btn btn-warning shadow p-3">
+            <select id="filter" class="btn btn-warning shadow p-3">
+                <option value="all">絞り込み</option>
+                <option value="star">☆予定のみ</option>
+                <option value="red">赤予定のみ</option>
+                <option value="blue">青予定のみ</option>
+                <option value="green">緑予定のみ</option>
+            </select>
+            </div>  
             <div id="titleList" class="positionCenter">
             <span  class="positionCenter">年月日</span>
             <span  class="positionCenter">開始時刻</span>
