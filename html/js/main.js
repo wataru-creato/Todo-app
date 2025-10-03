@@ -76,25 +76,21 @@ function DOMcreate(task) {
     const createDateDay = document.getElementById("day");
     const createDateDayAdd = document.createElement("div");
     createDateDayAdd.textContent = task.day;
-    createDateDayAdd.classList.add("positionFirst");
+    // createDateDayAdd.classList.add("positionFirst");
 
 
     const getStartTimeAdd = document.createElement("div");
     const getEndTimeAdd = document.createElement("div");
     getStartTimeAdd.textContent = task.start;
     getEndTimeAdd.textContent = task.end;
-    getStartTimeAdd.classList.add("positionFirst");
-    getEndTimeAdd.classList.add("positionFirst");
+    // getStartTimeAdd.classList.add("positionFirst");
+    // getEndTimeAdd.classList.add("positionFirst");
 
     //追加したリストのテキストが配置される場所を作成
     const span = document.createElement("span");
     span.id = "span" + Date.now();
     span.textContent = task.text;
     span.style.fontSize = "25px";
-   
-
-
-    console.log();
 
 
     //各ボタンの作成
@@ -103,13 +99,21 @@ function DOMcreate(task) {
     buttonAddFinish.type = "button";
     buttonAddFinish.value = "✔";
     buttonAddFinish.id = "finish" + Date.now();
-    buttonAddFinish.classList.add("btn", "btn-primary", "positionFirst");
+    buttonAddFinish.classList.add("btn", "btn-primary");
+    buttonAddFinish.setAttribute("data-bs-toggle", "tooltip");
+    buttonAddFinish.setAttribute("data-bs-placement", "top");
+    buttonAddFinish.setAttribute("data-bs-custom-class", "custom-tooltip");
+    buttonAddFinish.setAttribute("data-bs-title", "完了したタスクが消えます．");
     //☆ボタン
     let buttonAddPriority = document.createElement("input");
     buttonAddPriority.type = "button";
     buttonAddPriority.value = "☆";
     buttonAddPriority.id = "priority" + Date.now();
-    buttonAddPriority.classList.add("btn","btn-warning", "positionEnd");
+    buttonAddPriority.classList.add("btn","btn-warning");
+    buttonAddPriority.setAttribute("data-bs-toggle", "tooltip");
+    buttonAddPriority.setAttribute("data-bs-placement", "top");
+    buttonAddPriority.setAttribute("data-bs-custom-class", "custom-tooltip");
+    buttonAddPriority.setAttribute("data-bs-title", "タスクを強調します");
 
     //赤色に変えるボタン
     let changeColorRed = document.createElement("input");
@@ -133,6 +137,11 @@ function DOMcreate(task) {
     const blockMake = document.createElement("div");
     blockMake.classList = "blockMake";
 
+    document.body.appendChild(buttonAddFinish);
+    new bootstrap.Tooltip(buttonAddFinish);
+
+    document.body.appendChild(buttonAddPriority);
+    new bootstrap.Tooltip(buttonAddPriority);
 
     //取り消し線を追加する機能
     let slineCount = 0;
@@ -155,7 +164,7 @@ function DOMcreate(task) {
 
     //✔の処理内容
     function SetbuttonAddFinish(){
-        let result = window.confirm("削除しますか？");
+        let result = window.confirm("このタスクを完了しますか？");
 
         if (result) {
             blockMake.remove();
@@ -323,7 +332,7 @@ function DOMcreate(task) {
         const emphasis = document.createElement("strong");
         emphasis.textContent = task.text;
         emphasis.style.fontWeight = "bold";
-        emphasis.style.color = "red";
+        blockMake.style.color = "red";
         emphasis.style.fontSize="30px";
         span.textContent = "";
         span.appendChild(emphasis);
@@ -377,6 +386,7 @@ function DOMcreate(task) {
 }
 //「追加する」ボタンを押したときの処理
     confirm.addEventListener("click", putaddTask);
+    confirm.addEventListener("click", textReset);
 
     //リセットボタンの処理
     reset.addEventListener("click", function () {
@@ -385,9 +395,8 @@ function DOMcreate(task) {
 
         if(result2){
             text_area.innerHTML="";
-            task.reset="true";
             tasks=[];
-            tasqSave();
+            localStorage.removeItem("tasks");
             console.log("すべてのテキストを削除しました");
         }else{
             console.log("削除しません");
@@ -396,7 +405,7 @@ function DOMcreate(task) {
         
     });
 
-    //フィルター要素
+    //フィルターをつくる関数
     function colorFilter(event){
         let filterValue=event.target.value;//targetはユーザが直接選んだ値である
        let starfilter=document.querySelectorAll(".blockMake, .blockMakeStrong");//NodeList（配列のようなもの）を返すため，classListでは参照できない
@@ -430,5 +439,11 @@ function DOMcreate(task) {
             }
 }
     
+
+function textReset(){
+    text.value="";
+}
    filter.addEventListener("change",colorFilter);
    console.log("テスト");
+   console.log(localStorage.getItem("tasks"));
+   

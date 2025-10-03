@@ -11,30 +11,21 @@
 </head>
 
 <body class="back-img">
-    <headter>
+    <header>
         <div id="menue-bar">
             <h1>復習用Todoリスト</h1>
         </div>
-    </headter>
+    </header>
 
     <main id="text-form">
-        <!-- <div class="text-back-erea">
-            <h2>経歴一覧</h2>
-            </div> -->
-        <!-- <div id="slide-show">
-                <img id="img" src="../html/img/girl_17.png">
-            </div>
-            <div id="btn-area">
-                <button id="next" class="btn btn-primary">次に行く</button>
-            </div> -->
         <p>
         <h2>Todoリスト</h2>
         </p>
         <div id="TodoList">
-            <div id="TodoListLocate">
-            <input type="date" id="day" value="">
-            <input type="time" id="start-time" value="">～～<input type="time" id="end-time" value="">
-            <input type="text" id="text" placeholder="ここに追加してください">
+            <div id="TodoListMakeLocate" class="button_position">
+            <input type="date" id="day" class="shadow" value="" >
+            <input type="time" id="start-time" class="shadow" value="">～～<input type="time" id="end-time" class="shadow" value="">
+            <input type="text" id="text" class="shadow" placeholder="ここに追加してください">
             <input type="button" value="追加する" id="confirm" class="btn btn-warning shadow p-3">
             <input type="button" value="リセット" id="reset" class="btn btn-warning shadow p-3">
             <select id="filter" class="btn btn-warning shadow p-3">
@@ -45,11 +36,11 @@
                 <option value="green">緑予定のみ</option>
             </select>
             </div>  
-            <div id="titleList" class="positionCenter">
-            <span  class="positionCenter">年月日</span>
-            <span  class="positionCenter">開始時刻</span>
-            <span  class="positionCenter">終了時刻</span>
-            <span  class="positionCenter">予定</span>
+            <div id="titleList">
+            <span>年月日</span>
+            <span>開始時刻</span>
+            <span>終了時刻</span>
+            <span>予定</span>
             </div>
             <!-- <input type="button" value="終わる" id="finish"> -->
             <div id="text_area">
