@@ -23,19 +23,25 @@
         </p>
         <div id="TodoList">
             <div id="TodoListMakeLocate" class="button_position">
-            <input type="date" id="day" class="shadow" value="" >
+            <p>日付</p><input type="date" id="day" class="shadow" value="" >
             <input type="time" id="start-time" class="shadow" value="">～～<input type="time" id="end-time" class="shadow" value="">
             <input type="text" id="text" class="shadow" placeholder="ここに追加してください">
+            <span class="icon">+</span>
             <input type="button" value="追加する" id="confirm" class="btn btn-warning shadow p-3">
             <input type="button" value="リセット" id="reset" class="btn btn-warning shadow p-3">
             <select id="filter" class="btn btn-warning shadow p-3">
                 <option value="all">絞り込み</option>
                 <option value="star">☆予定のみ</option>
-                <option value="red">赤予定のみ</option>
-                <option value="blue">青予定のみ</option>
-                <option value="green">緑予定のみ</option>
+                <option value="red">未着手</option>
+                <option value="blue">進行中</option>
+                <option value="green">完了済み</option>
             </select>
             </div>  
+            <ul class="positionEnd">
+                <li><div class="redbox"></div><span>・・・未着手</span></li>
+                <li><div class="bluebox"></div><span>・・・進行中</span></li>
+                <li><div class="greenbox"></div><span>・・・完了済</span></li>
+            </ul>
             <div id="titleList">
             <span>年月日</span>
             <span>開始時刻</span>

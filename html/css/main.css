@@ -1,11 +1,11 @@
 
 
-.back-img{
+/* .back-img{
     background-image: url(../img/park_gazebo_bench_1-768x432.jpg);
     background-repeat:no-repeat;
     background-size:cover;
     
-}
+} */
 
 h1{
     color:black;
@@ -73,10 +73,21 @@ h1{
   box-shadow: 10px 5px 5px rgb(92, 83, 83);
 }
 
-/* .positionEnd{
-    margin-left: auto;
+.positionEnd{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    
+    gap:12px;
 }
-.positionFirst{
+
+.positionEnd li{
+    display: flex;
+    align-items:center;
+    margin-top: 30px;
+}
+
+/* .positionFirst{
     margin-right: auto;
 } */
 .positionCenter{
@@ -91,6 +102,15 @@ h1{
 #TodoListMakeLocate{
     position:relative;
     margin:0px 60px;
+    border: 2px solid #333;  
+    padding: 8px 12px;        
+    border-radius: 8px; 
+    background-color:#f9f9f9;
+    display: flex;
+    align-items:center; 
+    justify-content: center; 
+    padding: 20px; 
+    gap:20px;
 }
 .shadow{
     box-shadow: 10px 5px 5px rgb(92, 83, 83);
@@ -109,13 +129,41 @@ h2{
 #titleList{
     margin:20px 10px;
     border-bottom: 2px solid #000;
-     width:700px;
+     width:850px;
     text-align: center;
      display: grid;
-     grid-template-columns: 180px 210px 80px 320px 1fr; 
+     grid-template-columns: 180px 210px 80px 450px 1fr; 
 }
 
 .blockMake, .blockMakeStrong {
   display:grid;
-  grid-template-columns: auto 200px 130px 200px 1fr 60px 60px 60px 60px;
+  grid-template-columns: auto 200px 130px 200px 1fr 80px 80px 80px 80px;
+}
+
+.redbox{
+    width:15px;
+    height: 15px;
+    display: inline-block;
+    background-color: #ffcccc;
+}
+
+.bluebox{
+    width:15px;
+    height: 15px;
+    display: inline-block;
+    background-color: #cce5ff;
+}
+
+.greenbox{
+    width:15px;
+    height: 15px;
+    display: inline-block;
+    background-color: #ccffe5;
+}
+
+.icon{
+    position: relative;
+    display: inline-block;
+    color: #007bff;
+    font-size: 50px;
 }

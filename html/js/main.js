@@ -13,6 +13,7 @@ window.addEventListener("DOMContentLoaded", function () {
         text_area.appendChild(taskElm);
     })
 })
+//ページを読み込んだら，DOMすべてを読み込み，保存されたタスク1つずつ呼び出しDOM要素を作り，text_areaの子供としてtaskElmを追加する
 
 
 function putaddTask(){
@@ -20,7 +21,7 @@ function putaddTask(){
     const dayValue = document.getElementById("day").value;
     const getStartTimeValue = document.getElementById("start-time").value;
     const getEndTimeValue = document.getElementById("end-time").value;
-    const textValue = text.value.trim();
+    const textValue = text.value.trim();//trimを付ける理由は，入力した時の無駄なスペースや改行を消すため
 
     if (textValue === "") {
         alert("何も記載されていません");
@@ -118,19 +119,19 @@ function DOMcreate(task) {
     //赤色に変えるボタン
     let changeColorRed = document.createElement("input");
     changeColorRed.type = "button";
-    changeColorRed.value = "赤色";
+    changeColorRed.value = "未着手";
     changeColorRed.id = "red";
     changeColorRed.classList.add("btn", "btn-danger");
     //青色に変えるボタン
     let changeColorBlue = document.createElement("input");
     changeColorBlue.type = "button";
-    changeColorBlue.value = "青色";
+    changeColorBlue.value = "試行中";
     changeColorBlue.id = "blue";
     changeColorBlue.classList.add("btn", "btn-primary");
     //緑色に変えるボタン
     let changeColorGreen = document.createElement("input");
     changeColorGreen.type = "button";
-    changeColorGreen.value = "緑色";
+    changeColorGreen.value = "完了済み";
     changeColorGreen.id = "green";
     changeColorGreen.classList.add("btn", "btn-success");
 
@@ -199,7 +200,7 @@ function DOMcreate(task) {
             span.textContent = "";
             emphasis.style.fontWeight = "bold";
             blockMake.style.color = "#CC0000";
-            emphasis.style.fontSize="30px";
+            // emphasis.style.fontSize="30px";
 
             span.innerHTML = "";
             span.appendChild(emphasis);
@@ -333,7 +334,7 @@ function DOMcreate(task) {
         emphasis.textContent = task.text;
         emphasis.style.fontWeight = "bold";
         blockMake.style.color = "red";
-        emphasis.style.fontSize="30px";
+        // emphasis.style.fontSize="30px";
         span.textContent = "";
         span.appendChild(emphasis);
         changeColorRed.disabled=true;
