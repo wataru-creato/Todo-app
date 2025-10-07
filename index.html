@@ -22,12 +22,15 @@
         <h2>Todoリスト</h2>
         </p>
         <div id="TodoList">
+            <div class="between">
             <div id="TodoListMakeLocate" class="button_position">
-            <p>日付</p><input type="date" id="day" class="shadow" value="" >
-            <input type="time" id="start-time" class="shadow" value="">～～<input type="time" id="end-time" class="shadow" value="">
-            <input type="text" id="text" class="shadow" placeholder="ここに追加してください">
-            <span class="icon">+</span>
-            <input type="button" value="追加する" id="confirm" class="btn btn-warning shadow p-3">
+            <li class="inlineblock">日付</li><input type="date" id="day" class="shadow" value="" >
+            <li class="inlineblock">開始時刻</li><input type="time" id="start-time" class="shadow" value="">～～<li class="inlineblock">終了時刻</li><input type="time" id="end-time" class="shadow" value="">
+            <li class="inlineblock">予定</li><input type="text" id="text" class="shadow" placeholder="ここに追加してください">
+            <!-- <span class="icon">+</span> -->
+            <input type="button" value="追加" id="confirm" class="btn btn-warning shadow">
+             </div>  
+             <div class="yellow_buttonLocat">
             <input type="button" value="リセット" id="reset" class="btn btn-warning shadow p-3">
             <select id="filter" class="btn btn-warning shadow p-3">
                 <option value="all">絞り込み</option>
@@ -36,7 +39,8 @@
                 <option value="blue">進行中</option>
                 <option value="green">完了済み</option>
             </select>
-            </div>  
+            </div>
+            </div>
             <ul class="positionEnd">
                 <li><div class="redbox"></div><span>・・・未着手</span></li>
                 <li><div class="bluebox"></div><span>・・・進行中</span></li>

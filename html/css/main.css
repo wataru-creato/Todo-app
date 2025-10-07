@@ -101,15 +101,14 @@ h1{
 
 #TodoListMakeLocate{
     position:relative;
-    margin:0px 60px;
+    margin:0px 10px;
     border: 2px solid #333;  
     padding: 8px 12px;        
     border-radius: 8px; 
     background-color:#f9f9f9;
     display: flex;
     align-items:center; 
-    justify-content: center; 
-    padding: 20px; 
+    justify-content:flex-start; 
     gap:20px;
 }
 .shadow{
@@ -166,4 +165,20 @@ h2{
     display: inline-block;
     color: #007bff;
     font-size: 50px;
+}
+.inlineblock{
+    display: inline-block;
+}
+
+.yellow_buttonLocat{
+    display: flex;
+    justify-content: center;
+    margin-top:30px;
+    margin-right: 20px;
+    gap:10px;
+}
+.between{
+   display: flex;
+  justify-content: space-between;
+  align-items: center;  
 }
