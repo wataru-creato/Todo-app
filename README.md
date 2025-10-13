@@ -20,19 +20,27 @@ localStorage を利用してデータを保持するため、リロード後も�
 - ❌ タスクの削除  
 - ✔️ 完了済みタスクのチェック  
 - 💾 localStorage による保存  
-- 💡 ツールチップ表示（ボタンの動作を説明）  
+- 💡 ツールチップ表示（ボタンの動作を説明）
+- 🗨  色の状態ごとにタスクを絞り込む
 
 ---
 
 ## 🚀 デモ
 
-![画面1](image/Todopicture1.png)
+![画面1(新)](image/Todopicture1.png)
+ - 基本的な画面(旧版では色がなぜついているのかわからないとの指摘があり修正)
+
+
+ ![画面1(旧))](image/Todopicture7.png)
  - 基本的な画面
 
-![画面2](image/Todopicture2.png) 
+![画面2(新)](image/Todopicture8.png) 
  - タスクごとに色を付けることが出来ます
 
-初期版リンク：(https://wataru-creato.github.io/Todo-app/)
+ ![画面2(旧)](image/Todopicture2.png) 
+ - タスクごとに色を付けることが出来ます
+
+ver.2 リンク：(https://wataru-creato.github.io/Todo-app/)
 
 初期からの修正点
 
